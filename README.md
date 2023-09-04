@@ -32,3 +32,16 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+# Techs & Tricks
+  ## Techs
+  - Auth Cycle with Clerk
+  - DB with mysql with prisma & planet scale
+
+  ## Tricks/Features
+  - after auth we have a setup fnx to get/create the profile for each signed in users
+  - when the user first sign in we have the setup fun modal to create a server and on success we redirect to that server
+  - modals provider and state management with Zustand ['Create Server modal','Invite People To the Server Modal']
+  - api endpoint for user to join the server with an invite link
+  - invite people to server with an invite link
+
