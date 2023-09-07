@@ -77,7 +77,7 @@ const ServerSidebar = async ({ serverId }: Props) => {
   )?.role;
 
   return (
-    <div className='h-full w-full flex flex-col text-primary dark:bg-stone-800 bg-gray-200'>
+    <div className='h-full w-full flex flex-col text-primary  dark:bg-[#1f1f1f] bg-gray-200'>
       <ServerHeader server={server} role={role as MemberRole} />
 
       <ScrollArea className='flex-1 px-3'>

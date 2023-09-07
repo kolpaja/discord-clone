@@ -21,18 +21,21 @@ const iconMap = {
 
 const ServerChannel = ({ channel, server, role }: Props) => {
   const params = useParams();
+  const router = useRouter();
 
   const Icon = iconMap[channel.type];
 
   const { onOpen } = useModal();
 
+  const handleChannelClick = () =>
+    router.push(`/servers/${params?.serverId}/channels/${channel?.id}`);
   const handleEditChannel = () => onOpen('editChannel', { server, channel });
   const handleDeleteChannel = () =>
     onOpen('deleteChannel', { server, channel });
 
   return (
     <button
-      onClick={() => {}}
+      onClick={handleChannelClick}
       className={cn(
         'group p-2 rounded-md flex items-center gap-x-2  w-full hover:bg-zinc-700/10 dark:hover:bg-zinc-700/50 transition mb-1',
         params?.channelId == channel.id && 'bg-zinc-700/20 dark:bg-zinc-700'
