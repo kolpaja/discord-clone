@@ -44,4 +44,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   - modals provider and state management with Zustand ['Create Server modal','Invite People To the Server Modal']
   - api endpoint for user to join the server with an invite link
   - invite people to server with an invite link
+  - cool keyboard ui showcase https://developer.mozilla.org/en-US/docs/Web/HTML/Element/kbd 
 
