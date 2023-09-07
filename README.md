@@ -6,10 +6,10 @@ First, run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# for prisma studio
+npx prisma studio
+# for shadcn-ui adding new component
+ npx shadcn-ui@latest add <Component Name>
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -37,6 +37,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
   ## Techs
   - Auth Cycle with Clerk
   - DB with mysql with prisma & planet scale
+  - UI with [shadcn-ui](https://ui.shadcn.com/) + [Nextjs + Tailwindcss](https://ui.shadcn.com/docs/installation/next)
 
   ## Tricks/Features
   - after auth we have a setup fnx to get/create the profile for each signed in users
