@@ -50,49 +50,47 @@ const serverFormSchema = z.object({
   type: z.nativeEnum(ChanelType),
 });
 
-export const CreateChannelModal = () => {
+export const EditChannelModal = () => {
   const router = useRouter();
-  const params = useParams();
 
   const { isOpen, onClose, type, data } = useModal();
 
-  const { channelType } = data;
+  const { server, channel } = data;
 
-  const isModalOpen = isOpen && type === 'createChannel';
+  const isModalOpen = isOpen && type === 'editChannel';
 
   const form = useForm({
     resolver: zodResolver(serverFormSchema),
     defaultValues: {
       name: '',
-      type: channelType || ChanelType.TEXT,
+      type: channel?.type || ChanelType.TEXT,
     },
   });
 
   useEffect(() => {
-    if (channelType) {
-      form.setValue('type', channelType);
-    } else {
-      form.setValue('type', ChanelType.TEXT);
+    if (channel) {
+      form.setValue('type', channel.type);
+      form.setValue('name', channel.name);
     }
-  }, [channelType, form]);
+  }, [channel, form]);
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof serverFormSchema>) => {
     try {
       const url = qs.stringifyUrl({
-        url: `/api/channels`,
+        url: `/api/channels/${channel?.id}`,
         query: {
-          serverId: params?.serverId,
+          serverId: server?.id,
         },
       });
-      await axios.post(url, values);
+      await axios.patch(url, values);
       onClose();
       form.reset();
       router.refresh();
     } catch (error) {
-      console.error(
-        '🚀 ~ file: CreateServerModal.tsx:55 ~ onSubmit ~ error:',
+      console.log(
+        '🚀 ~ file: EditChannelModal.tsx:93 ~ onSubmit ~ error:',
         error
       );
     }
@@ -116,8 +114,8 @@ export const CreateChannelModal = () => {
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
       <DialogContent className='bg-white text-black p-0 px-4 overflow-hidden'>
         <DialogHeader className='p-6'>
-          <DialogTitle className='text-3xl font-semibold text-center capitalize'>
-            Create a channel
+          <DialogTitle className='text-3xl font-semibold text-center'>
+            Edit Channel #{channel?.name}
           </DialogTitle>
 
           <DialogDescription className='text-center'></DialogDescription>
@@ -188,7 +186,7 @@ export const CreateChannelModal = () => {
 
             <DialogFooter className='bg-gray-100 px-6 py-4'>
               <Button type='submit' variant='primary' disabled={isLoading}>
-                Create
+                Save
               </Button>
             </DialogFooter>
           </form>

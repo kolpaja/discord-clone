@@ -1,6 +1,8 @@
 'use client';
+
 import { Search } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 import {
   Command,
   CommandDialog,
@@ -12,6 +14,7 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from '@/components/ui/command';
+import { useParams, useRouter } from 'next/navigation';
 
 export type ServerSearchProps = {
   data: {
@@ -28,8 +31,18 @@ export type ServerSearchProps = {
 };
 
 const ServerSearch = ({ data }: ServerSearchProps) => {
-  const isMac = navigator.userAgent.toLowerCase().includes('mac');
+  const [isMac, setIsMac] = useState(false);
+  const params = useParams();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    // Check if navigator is available before using it
+    if (typeof navigator !== 'undefined') {
+      // Access navigator properties or methods here
+      setIsMac(navigator?.userAgent?.toLowerCase().includes('mac'));
+    }
+  }, []);
 
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -41,6 +54,23 @@ const ServerSearch = ({ data }: ServerSearchProps) => {
     document.addEventListener('keydown', down);
     return () => document.removeEventListener('keydown', down);
   }, []);
+
+  const handleClickSearchItem = ({
+    id,
+    type,
+  }: {
+    id: string;
+    type: 'channel' | 'member';
+  }) => {
+    setIsOpen(false);
+    console.log({ type });
+    if (type === 'member') {
+      return router.push(`/servers/${params.serverId}/conversations/${id}`);
+    }
+    if (type === 'channel') {
+      return router.push(`/servers/${params.serverId}/channels/${id}`);
+    }
+  };
 
   return (
     <>
@@ -68,7 +98,10 @@ const ServerSearch = ({ data }: ServerSearchProps) => {
             return (
               <CommandGroup key={label} heading={label}>
                 {data?.map(({ id, name, icon }) => (
-                  <CommandItem key={id}>
+                  <CommandItem
+                    key={id}
+                    onSelect={() => handleClickSearchItem({ id, type })}
+                  >
                     {icon} <span>{name}</span>
                   </CommandItem>
                 ))}
